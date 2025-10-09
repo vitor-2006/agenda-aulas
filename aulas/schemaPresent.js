@@ -5,6 +5,17 @@ const PresentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    presentes: {},
+    presencas: {
+        type: [Object],
+        required: true,
+        idAluno: {
+            type: Number,
+            required: true
+        },
+        presente: {
+            type: Boolean,
+            required: true
+        }
+    }
 })
 export const Present = mongoose.model('present', PresentSchema)

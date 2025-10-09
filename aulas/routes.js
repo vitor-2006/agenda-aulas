@@ -3,6 +3,7 @@ import { getAula } from './get.js'
 import { createAula } from './post.js';
 import { updateAula } from "./put.js"
 import { deleteAula } from './delete.js';
+import { createPresent } from './presenca.js';
 
 const routesAula  = express.Router();
 
@@ -43,6 +44,16 @@ routesAula.delete('/aula/:id', async (req, res) => {
     } else {
         return res.status(404).send({ message: 'Aula não encontrada' })
     }
+});
+
+routesAula.post('/aula/:id/presenca', async (req, res) => {
+    const { id } = req.params
+    const { idAula, presencas } = req.body
+    const newPresent = await createPresent(id, idAula, presencas)
+    if(!newPresent) {
+        return res.status(400).send("presença inválida!")
+    }
+    return res.status(201).send({ message: 'presença criada com sucesso', present: newPresent })
 });
 
 export {routesAula}
