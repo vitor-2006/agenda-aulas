@@ -1,6 +1,6 @@
 import { Aula } from "./schemaAula.js"
 
-export const getAula = async (req, res) => {
+export const getAula = async () => {
     try {
         return await Aula.find()
     } catch (error) {
