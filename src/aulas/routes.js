@@ -4,10 +4,11 @@ import { createAula } from './post.js';
 import { updateAula } from "./put.js"
 import { deleteAula } from './delete.js';
 import { createPresent } from './presenca.js';
+import { middleWare } from '../middleware/authentication.js';
 
 const routesAula  = express.Router();
 
-routesAula.get('/aula', async (req, res) => {
+routesAula.get('/aula', middleWare, async (req, res) => {
     const Aulas = await getAula()
     if(Aulas) {
         return res.status(200).send(Aulas)
@@ -16,7 +17,7 @@ routesAula.get('/aula', async (req, res) => {
     }
 });
 
-routesAula.post('/aula', async (req, res) => {
+routesAula.post('/aula', middleWare, async (req, res) => {
     const { idProfessor, data, assunto } = req.body
     const newAula = await createAula(idProfessor, data, assunto)
     if(!newAula) {
@@ -25,7 +26,7 @@ routesAula.post('/aula', async (req, res) => {
     return res.status(201).send({ message: 'Aula criada com sucesso', aula: newAula })
 });
 
-routesAula.put('/aula/:id', async (req, res) => {
+routesAula.put('/aula/:id', middleWare, async (req, res) => {
     const { id } = req.params
     const { idProfessor, data, assunto } = req.body
     const updatedAula = await updateAula(id, idProfessor, data, assunto)
@@ -36,7 +37,7 @@ routesAula.put('/aula/:id', async (req, res) => {
     }
 });
 
-routesAula.delete('/aula/:id', async (req, res) => {
+routesAula.delete('/aula/:id', middleWare, async (req, res) => {
     const { id } = req.params
     const deletedAula = deleteAula(id)
     if(deletedAula) {
@@ -46,7 +47,7 @@ routesAula.delete('/aula/:id', async (req, res) => {
     }
 });
 
-routesAula.post('/aula/:id/presenca', async (req, res) => {
+routesAula.post('/aula/:id/presenca', middleWare, async (req, res) => {
     const { id } = req.params
     const { idAula, presencas } = req.body
     const newPresent = await createPresent(id, idAula, presencas)
