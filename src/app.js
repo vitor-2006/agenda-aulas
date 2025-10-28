@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import { mongoose } from 'mongoose';
 import { routesAula } from './aulas/routes.js';
+import { userRoutes } from './user/routes.js';
 
 dotenv.config()
 const dbUser = process.env.DB_USER
@@ -24,6 +25,7 @@ mongoose.connection?.on("error", (err) => {
 
 app.use(express.json());
 app.use(routesAula)
+app.use(userRoutes)
 	
 app.listen(port, () => {
     console.log("Api iniciada na porta: " + port);
